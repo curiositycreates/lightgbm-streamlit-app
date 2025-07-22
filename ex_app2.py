@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import numpy as np
 from sklearn.model_selection import train_test_split
 import lightgbm as lgb # LightGBMをインポート
 from sklearn.metrics import mean_squared_error # 学習の評価用にインポート
@@ -51,8 +52,10 @@ if uploaded_train_file is not None:
 
             # モデルの評価 (オプション)
             y_pred = new_model.predict(X_test)
-            rmse = mean_squared_error(y_test, y_pred, squared=False) # RMSEを計算
+            mse = mean_squared_error(y_test, y_pred)  # MSEを計算
+            rmse = np.sqrt(mse)
             st.write(f"モデル学習が完了しました。テストセットでのRMSE: {rmse:.2f}")
+            
 
             # 学習済みモデルの保存
             model_save_path = "models/new_trained_model.pkl" # 保存パスを適宜変更してください
